@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- 背景のグラデーション円 -->
+    <path android:pathData="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startX="2"
+                android:startY="2"
+                android:endX="22"
+                android:endY="22"
+                android:type="linear">
+                <item android:offset="0.0" android:color="#00E676"/> <!-- 鮮やかな緑 -->
+                <item android:offset="1.0" android:color="#1B5E20"/> <!-- 深い緑 -->
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- 折れ線グラフ -->
+    <path
+        android:strokeColor="#AAFFAA"
+        android:strokeWidth="1.0"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M6,15 L9,11 L12,14 L15,8 L18,12" />
+
+    <!-- 軸（オプション：よりグラフらしく見せるため） -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1"
+        android:strokeLineCap="round"
+        android:alpha="0.5"
+        android:pathData="M5,17 L19,17 M5,5 L5,17" />
+</vector>

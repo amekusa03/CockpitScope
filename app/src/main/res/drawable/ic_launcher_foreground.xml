@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- グラフの折れ線 -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M25,70 L40,50 L55,65 L70,30 L85,45" />
+
+    <!-- 輝きエフェクト（少し太めの薄い緑で光彩を表現） -->
+    <path
+        android:strokeColor="#6600E676"
+        android:strokeWidth="6"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M25,70 L40,50 L55,65 L70,30 L85,45" />
+
+    <!-- 軸の先端のドット -->
+    <path
+        android:fillColor="#00E676"
+        android:pathData="M85,45m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0" />
+
+</vector>
