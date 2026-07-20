@@ -5,31 +5,25 @@
     android:height="24dp"
     android:viewportWidth="24"
     android:viewportHeight="24">
-
-    <!-- 背景のグラデーション円 -->
     <path android:pathData="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z">
         <aapt:attr name="android:fillColor">
             <gradient
-                android:startX="2"
-                android:startY="2"
-                android:endX="22"
-                android:endY="22"
+                android:startX="2" android:startY="2"
+                android:endX="22" android:endY="22"
                 android:type="linear">
-                <item android:offset="0.0" android:color="#00E676"/> <!-- 鮮やかな緑 -->
-                <item android:offset="1.0" android:color="#1B5E20"/> <!-- 深い緑 -->
+                <item android:offset="0.0" android:color="#00E676"/>
+                <item android:offset="1.0" android:color="#1B5E20"/>
             </gradient>
         </aapt:attr>
     </path>
-
-    <!-- 折れ線グラフ -->
+    <!-- サイン波 -->
     <path
         android:strokeColor="#AAFFAA"
-        android:strokeWidth="1.0"
+        android:strokeWidth="0.5"
         android:strokeLineCap="round"
         android:strokeLineJoin="round"
-        android:pathData="M6,15 L9,11 L12,14 L15,8 L18,12" />
-
-    <!-- 軸（オプション：よりグラフらしく見せるため） -->
+        android:pathData="M5,12 C5.6,12 5.6,8 6.2,8 C6.8,8 6.8,16 7.4,16 C8,16 8,8 8.6,8 C9.2,8 9.2,16 9.8,16 C10.4,16 10.4,8 11,8 C11.6,8 11.6,16 12.2,16 C12.8,16 12.8,8 13.4,8 C14,8 14,16 14.6,16 C15.2,16 15.2,8 15.8,8 C16.4,8 16.4,12 19,12" />
+    <!-- 軸 -->
     <path
         android:strokeColor="#FFFFFF"
         android:strokeWidth="1"

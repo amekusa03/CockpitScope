@@ -53,7 +53,7 @@ Bluetooth Classic 経由で車両の OBD-II データ（ELM327）を取得し、
 - [x] Android 6.0 までの下位互換対応
 - [ ] 視覚演出の強化（高負荷時の発光、残像エフェクト等）
 - [ ] データのローカル保存（CSV出力）およびリプレイ機能の実装
-- [ ] Android Auto 対応の検討
+- [x] Android Auto 対応の検討
 
 ## ライセンス (License)
 このプロジェクトは [MIT License](LICENSE) の下で公開されています。

@@ -1,6 +1,7 @@
 package com.kusa.cockpitscope
 
 import android.content.Context
+import android.graphics.BlurMaskFilter
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -20,18 +21,31 @@ class TelemetryScopeView @JvmOverloads constructor(
         val decimalPlaces: Int = 0
     ) {
         val points = mutableListOf<Float>()
+        
         val linePaint = Paint().apply {
             color = initialColor
             style = Paint.Style.STROKE
-            strokeWidth = 5f
+            strokeWidth = 6f
             isAntiAlias = true
         }
+
+        val glowPaint = Paint().apply {
+            color = initialColor
+            style = Paint.Style.STROKE
+            strokeWidth = 12f
+            isAntiAlias = true
+            maskFilter = BlurMaskFilter(15f, BlurMaskFilter.Blur.NORMAL)
+        }
+
         val fillPaint = Paint().apply {
             color = initialColor
-            alpha = 100 // 約40%透過
+            alpha = 60 // 透過を抑えて重なりを見やすく
             style = Paint.Style.FILL
             isAntiAlias = true
         }
+
+        // 残像用の透明度管理
+        val trailAlphas = intArrayOf(40, 20)
     }
 
     private val seriesMap = mutableMapOf<String, DataSeries>()
@@ -40,19 +54,23 @@ class TelemetryScopeView @JvmOverloads constructor(
     private val gridPaint = Paint().apply {
         color = Color.DKGRAY
         strokeWidth = 1f
-        alpha = 80
+        alpha = 60
     }
 
     private val textPaint = Paint().apply {
         color = Color.WHITE
         textSize = 36f
         isAntiAlias = true
-        // 文字に影をつけて視認性を向上
         setShadowLayer(3f, 2f, 2f, Color.BLACK)
     }
 
     private val linePath = Path()
     private val fillPath = Path()
+
+    // BlurMaskFilterを使用するためにソフトウェアレンダリングを有効にする
+    init {
+        setLayerType(LAYER_TYPE_SOFTWARE, null)
+    }
 
     fun addSeries(id: String, label: String, maxValue: Float, @ColorInt color: Int, decimalPlaces: Int = 0) {
         seriesMap[id] = DataSeries(label, maxValue, color, decimalPlaces)
@@ -103,6 +121,8 @@ class TelemetryScopeView @JvmOverloads constructor(
             fillPath.reset()
             
             val stepX = w / (maxDataPoints - 1)
+            val latestValue = points.last()
+            val intensity = (latestValue / series.maxValue).coerceIn(0f, 1f)
             
             for (i in points.indices) {
                 val reverseIndex = points.size - 1 - i
@@ -125,7 +145,27 @@ class TelemetryScopeView @JvmOverloads constructor(
                 }
             }
 
+            // 残像表現 (Trail)
+            series.trailAlphas.forEachIndexed { index, alpha ->
+                val offset = (index + 1) * 4f
+                canvas.save()
+                canvas.translate(-offset, 0f)
+                series.linePaint.alpha = alpha
+                canvas.drawPath(linePath, series.linePaint)
+                canvas.restore()
+            }
+            series.linePaint.alpha = 255
+
+            // 塗りつぶし
             canvas.drawPath(fillPath, series.fillPaint)
+
+            // グロー効果 (高負荷時/高回転時に強調)
+            if (intensity > 0.7f) {
+                series.glowPaint.alpha = ((intensity - 0.7f) / 0.3f * 200).toInt().coerceIn(0, 255)
+                canvas.drawPath(linePath, series.glowPaint)
+            }
+
+            // メインのライン
             canvas.drawPath(linePath, series.linePaint)
         }
 
