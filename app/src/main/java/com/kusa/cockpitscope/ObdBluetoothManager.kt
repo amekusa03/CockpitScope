@@ -107,6 +107,31 @@ class ObdBluetoothManager {
         return parseHex(response, "05", 1) - 40f
     }
 
+    fun parseIntakeAirTemp(response: String): Float {
+        // Expected: "41 0F AA" -> AA - 40
+        return parseHex(response, "0F", 1) - 40f
+    }
+
+    fun parseTimingAdvance(response: String): Float {
+        // Expected: "41 0E AA" -> AA / 2 - 64
+        return parseHex(response, "0E", 1) / 2f - 64f
+    }
+
+    fun parseAmbientAirTemp(response: String): Float {
+        // Expected: "41 46 AA" -> AA - 40
+        return parseHex(response, "46", 1) - 40f
+    }
+
+    fun parseFuelLevel(response: String): Float {
+        // Expected: "41 2F AA" -> AA * 100 / 255
+        return parseHex(response, "2F", 1) * 100f / 255f
+    }
+
+    fun parseBaroPressure(response: String): Float {
+        // Expected: "41 33 AA" -> AA
+        return parseHex(response, "33", 1)
+    }
+
     private fun parseHex(response: String, pid: String, bytes: Int): Float {
         try {
             val clean = response.replace(" ", "")

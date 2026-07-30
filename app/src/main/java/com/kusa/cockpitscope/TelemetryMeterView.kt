@@ -31,14 +31,14 @@ class TelemetryMeterView @JvmOverloads constructor(
                 duration = 150
                 interpolator = DecelerateInterpolator()
                 addUpdateListener {
-                    animatedValue = it.animatedValue as Float
+                    this@MeterSeries.animatedValue = it.animatedValue as Float
                 }
                 start()
             }
         }
     }
 
-    private val seriesMap = mutableLinkedHashMapOf<String, MeterSeries>()
+    private val seriesMap = LinkedHashMap<String, MeterSeries>()
 
     private val gaugePaint = Paint().apply {
         style = Paint.Style.STROKE
@@ -81,9 +81,7 @@ class TelemetryMeterView @JvmOverloads constructor(
     }
 
     fun addDataPoint(id: String, value: Float) {
-        seriesMap[id]?.let {
-            it.updateValue(value)
-        }
+        seriesMap[id]?.updateValue(value)
         postInvalidateOnAnimation()
     }
 

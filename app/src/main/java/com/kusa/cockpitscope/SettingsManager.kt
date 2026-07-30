@@ -25,8 +25,17 @@ class SettingsManager(context: Context) {
             DisplayItem("load", "エンジン負荷 (Load)", 100f, Color.parseColor("#AAAAAA"), "%"),
             DisplayItem("map", "インマニ圧 (MAP)", 255f, Color.parseColor("#4444FF"), "kPa"),
             DisplayItem("maf", "吸入空気量 (MAF)", 100f, Color.parseColor("#FFFFFF"), "g/s", 1),
-            DisplayItem("gforce", "加速度 (G-Force)", 2f, Color.parseColor("#FF8800"), "G", 1)
+            DisplayItem("gforce", "加速度 (G-Force)", 2f, Color.parseColor("#FF8800"), "G", 1),
+            DisplayItem("intake_air_temp", "吸気温度 (Intake Air)", 100f, Color.parseColor("#0088FF"), "°C"),
+            DisplayItem("timing_advance", "点火時期 (Timing)", 60f, Color.parseColor("#FFCC00"), "°"),
+            DisplayItem("ambient_air_temp", "外気温度 (Ambient)", 50f, Color.parseColor("#88FF00"), "°C"),
+            DisplayItem("fuel_level", "燃料残量 (Fuel)", 100f, Color.parseColor("#FF0088"), "%"),
+            DisplayItem("baro_pressure", "大気圧 (Baro)", 110f, Color.parseColor("#00FF88"), "kPa")
         )
+    }
+
+    fun getEnabledCount(): Int {
+        return ALL_ITEMS.count { isEnabled(it.id) }
     }
 
     fun isEnabled(id: String): Boolean {

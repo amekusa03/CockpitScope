@@ -145,7 +145,17 @@ class FirstFragment : Fragment() {
     }
 
     private suspend fun fetchRealData(outData: MutableMap<String, Float>) {
-        val pids = mapOf("rpm" to "01 0C", "speed" to "01 0D", "throttle" to "01 11", "water_temp" to "01 05")
+        val pids = mapOf(
+            "rpm" to "01 0C",
+            "speed" to "01 0D",
+            "throttle" to "01 11",
+            "water_temp" to "01 05",
+            "intake_air_temp" to "01 0F",
+            "timing_advance" to "01 0E",
+            "ambient_air_temp" to "01 46",
+            "fuel_level" to "01 2F",
+            "baro_pressure" to "01 33"
+        )
         pids.forEach { (id, pid) ->
             if (settingsManager.isEnabled(id)) {
                 val resp = obdBluetoothManager.fetchData(pid)
@@ -153,7 +163,13 @@ class FirstFragment : Fragment() {
                     "rpm" -> obdBluetoothManager.parseRpm(resp)
                     "speed" -> obdBluetoothManager.parseSpeed(resp)
                     "throttle" -> obdBluetoothManager.parseThrottle(resp)
-                    else -> obdBluetoothManager.parseWaterTemp(resp)
+                    "water_temp" -> obdBluetoothManager.parseWaterTemp(resp)
+                    "intake_air_temp" -> obdBluetoothManager.parseIntakeAirTemp(resp)
+                    "timing_advance" -> obdBluetoothManager.parseTimingAdvance(resp)
+                    "ambient_air_temp" -> obdBluetoothManager.parseAmbientAirTemp(resp)
+                    "fuel_level" -> obdBluetoothManager.parseFuelLevel(resp)
+                    "baro_pressure" -> obdBluetoothManager.parseBaroPressure(resp)
+                    else -> 0f
                 }
                 outData[id] = value
             }
@@ -170,6 +186,11 @@ class FirstFragment : Fragment() {
         if (settingsManager.isEnabled("load")) outData["load"] = 20f + sin(time * 0.4f) * 60f
         if (settingsManager.isEnabled("map")) outData["map"] = 30f + sin(time * 0.6f) * 70f
         if (settingsManager.isEnabled("maf")) outData["maf"] = 5f + sin(time * 0.8f) * 40f
+        if (settingsManager.isEnabled("intake_air_temp")) outData["intake_air_temp"] = 40f + sin(time * 0.2f) * 10f
+        if (settingsManager.isEnabled("timing_advance")) outData["timing_advance"] = 10f + sin(time * 1f) * 20f
+        if (settingsManager.isEnabled("ambient_air_temp")) outData["ambient_air_temp"] = 25f + sin(time * 0.05f) * 2f
+        if (settingsManager.isEnabled("fuel_level")) outData["fuel_level"] = (100f - time * 0.1f).coerceAtLeast(0f)
+        if (settingsManager.isEnabled("baro_pressure")) outData["baro_pressure"] = 101f + sin(time * 0.01f) * 2f
     }
 
     private fun startReplaying() {
