@@ -27,6 +27,7 @@ class FirstFragment : Fragment() {
     private var isRecording = false
     private var isReplaying = false
     private var dataJob: Job? = null
+    private var recBlinkJob: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +50,15 @@ class FirstFragment : Fragment() {
 
         setupScope()
         startDataCycle()
+
+        // 状態復帰時のインジケーター設定
+        if (isRecording) {
+            binding.layoutRecIndicator.visibility = View.VISIBLE
+            startRecBlinking()
+        }
+        if (isReplaying) {
+            binding.tvReplayIndicator.visibility = View.VISIBLE
+        }
     }
 
     override fun onResume() {
@@ -101,7 +111,9 @@ class FirstFragment : Fragment() {
         val path = logger.startLogging()
         if (path != null) {
             isRecording = true
-            binding.tvStatus.text = "Recording: ${File(path).name}"
+            binding.tvStatus.text = "File: ${File(path).name}"
+            binding.layoutRecIndicator.visibility = View.VISIBLE
+            startRecBlinking()
         }
     }
 
@@ -109,6 +121,18 @@ class FirstFragment : Fragment() {
         logger.stopLogging()
         isRecording = false
         binding.tvStatus.text = "Saved"
+        binding.layoutRecIndicator.visibility = View.GONE
+        recBlinkJob?.cancel()
+    }
+
+    private fun startRecBlinking() {
+        recBlinkJob?.cancel()
+        recBlinkJob = viewLifecycleOwner.lifecycleScope.launch {
+            while (isRecording) {
+                binding.viewRecDot.alpha = if (binding.viewRecDot.alpha == 1f) 0f else 1f
+                delay(500)
+            }
+        }
     }
 
     private fun startDataCycle() {
@@ -201,7 +225,8 @@ class FirstFragment : Fragment() {
         }
         val lastLog = logs.maxByOrNull { it.lastModified() } ?: return
         isReplaying = true
-        binding.tvStatus.text = "Replay: ${lastLog.name}"
+        binding.tvStatus.text = "File: ${lastLog.name}"
+        binding.tvReplayIndicator.visibility = View.VISIBLE
         
         dataJob?.cancel()
         dataJob = viewLifecycleOwner.lifecycleScope.launch {
@@ -231,6 +256,7 @@ class FirstFragment : Fragment() {
     private fun stopReplaying() {
         isReplaying = false
         binding.tvStatus.text = ""
+        binding.tvReplayIndicator.visibility = View.GONE
         startDataCycle()
     }
 
