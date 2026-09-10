@@ -1,63 +1,75 @@
 # Cockpit Scope
 
-> **Status: 開発中（ベース機能実装済み）**  
-> ELM327 OBD-IIアダプタおよびスマホ内蔵センサーを利用した、リアルタイム・テレメトリー表示アプリ。
+> **Status: Under Active Development (Core features implemented)**  
+> A real-time automotive telemetry display application powered by ELM327 OBD-II adapters and smartphone built-in sensors.
 
-## 概要
-Bluetooth Classic 経由で車両の OBD-II データ（ELM327）を取得し、時系列グラフとして表示します。また、スマホ内蔵の加速度センサーを利用した G-Force の計測も可能です。
-「走りの見える化」に特化し、レーシングマシンのデータモニターのような体験を提供します。
+## Overview
+**Cockpit Scope** retrieves vehicle OBD-II telemetry via Bluetooth Classic (ELM327) and renders it as real-time multi-channel time-series waveforms. In addition, it leverages the smartphone's built-in accelerometer to measure and visualize real-time G-Forces.
+Designed with a focus on "making vehicle dynamics visible," Cockpit Scope delivers a racing-style data monitoring experience directly in your cockpit.
 
-## 主要機能
-- **リアルタイム・マルチグラフ表示**: 
-  - 複数の車両データを同一時間軸上に折れ線グラフで描画。
-  - 右端が「現在」、左へ流れていく時系列表示。
-- **OBD-II データ連携**:
-  - ELM327 アダプタ経由でエンジン回転数 (RPM)、速度、アクセル開度、水温などを取得。
-- **G-Force 計測**:
-  - スマホ内蔵の加速度センサーを利用し、車両の加減速・旋回Gを 0.1G 単位でリアルタイム計測。
-- **柔軟なカスタマイズ (Settings)**:
-  - 表示項目の選択（RPM、速度、水温、電圧、加速度など）。
-  - 各グラフの表示色の個別設定。
-  - 電圧やGフォース等の細かな数値（小数点第一位）の表示対応。
-- **テレメトリーログ保存機能（プレースホルダー）**:
-  - メイン画面の専用アイコンから現在の走行状態のログ保存をシミュレート。
+## Key Features
+- **Real-time Multi-Graph Dashboard**:
+  - Simultaneous rendering of multiple vehicle metrics on a shared time axis.
+  - Oscilloscope-style visualization where current data enters from the right and scrolls continuously to the left.
+- **OBD-II Telemetry Integration**:
+  - Reads essential live data from ELM327 adapters, including Engine RPM, Vehicle Speed, Throttle Position, Coolant Temperature, Battery Voltage, Engine Load, MAP, MAF, and more.
+- **G-Force Measurement**:
+  - Utilizes smartphone internal sensors to calculate and display longitudinal and lateral acceleration in real-time (0.1G precision).
+- **Flexible Customization**:
+  - Select which metrics to display (choose up to 9 channels).
+  - Customize colors independently for each waveform series.
+  - High-precision decimal display support for metrics like Voltage and G-Force.
+- **Telemetry Recording & Replay**:
+  - Record live telemetry data to local CSV files.
+  - Replay recorded session files on the oscilloscope screen.
+- **Demo Mode**:
+  - Built-in simulated telemetry generator when no OBD adapter is connected, enabling full offline exploration.
 
-## 動作要件 (Requirements)
-- **Android**: Android 6.0 (API 23) 以上
-- **通信**: Bluetooth Classic 対応
-- **ハードウェア**: ELM327 OBD-II アダプタ（v1.5/v2.1）推奨
-  - ※アダプタ未接続時は、動作確認用のデモモード（Mockデータ）で動作します。
+## System Requirements
+- **OS**: Android 6.0 (API Level 23) or higher
+- **Connectivity**: Bluetooth Classic (SPP)
+- **Hardware**: ELM327 OBD-II adapter (v1.5 / v2.1 recommended)
+  - *Note: If no adapter is connected, the app runs in demo mode with mock data.*
 
-## 使い方 (Usage)
-1. **ペアリング**: Androidの設定からELM327アダプタとペアリングします。
-2. **デバイス選択**: アプリを起動し、ツールバーの設定（歯車アイコン）から「表示設定」を開きます。
-3. **接続設定**: 「Bluetoothデバイスを選択」から、ペアリングしたアダプタを選択します。
-4. **項目の選択**: グラフに表示したい項目にチェックを入れ、必要に応じて「色」をタップして変更します。
-5. **表示開始**: メイン画面に戻ると、接続が試行され、リアルタイム描画が開始されます。
+## Getting Started
+1. **Pair Adapter**: Pair your ELM327 OBD-II adapter in Android's Bluetooth Settings.
+2. **Open Settings**: Launch Cockpit Scope and tap the Settings icon (gear icon) in the toolbar.
+3. **Select Device**: Tap "Select Bluetooth Device" and pick your paired ELM327 adapter from the list.
+4. **Configure Channels**: Toggle the checkboxes for metrics you want to monitor, and tap the color box to customize display colors.
+5. **Start Monitoring**: Tap "Apply & Return" to return to the main dashboard. The app will connect and start live waveform rendering.
 
-## 表示項目一覧
-- エンジン回転数 (RPM)
-- 車速 (Speed) [km/h]
-- アクセル開度 (Throttle) [%]
-- エンジン水温 (Water Temp) [°C]
-- 電圧 (Voltage) [V] ※0.1V単位
-- 加速度 (G-Force) [G] ※0.1G単位
-- エンジン負荷 (Load) [%]
-- インマニ圧 (MAP) [kPa]
-- 吸入空気量 (MAF) [g/s]
+## Supported Telemetry Metrics
+| Metric | Description | Unit | Decimal Precision |
+| :--- | :--- | :--- | :--- |
+| **Engine Speed (RPM)** | Engine revolutions per minute | RPM | 0 |
+| **Vehicle Speed** | Current vehicle speed | km/h | 0 |
+| **Throttle Position** | Accelerator pedal / throttle angle | % | 0 |
+| **Coolant Temp** | Engine coolant temperature | °C | 0 |
+| **Battery Voltage** | Electrical system voltage | V | 1 |
+| **Engine Load** | Calculated engine load value | % | 0 |
+| **Manifold Pressure (MAP)** | Intake manifold absolute pressure | kPa | 0 |
+| **Mass Air Flow (MAF)** | Intake air mass flow rate | g/s | 1 |
+| **G-Force** | Combined acceleration / inertial force | G | 1 |
+| **Intake Air Temp** | Air intake temperature | °C | 0 |
+| **Timing Advance** | Ignition timing advance | ° | 0 |
+| **Ambient Air Temp** | Outside air temperature | °C | 0 |
+| **Fuel Level** | Remaining fuel tank percentage | % | 0 |
+| **Barometric Pressure** | Atmospheric pressure | kPa | 0 |
 
-## 開発ロードマップ
-- [x] ベースシステムの構築（OBD通信・基本波形描画）
-- [x] スマホ内蔵センサー（加速度）の統合
-- [x] 設定画面（表示項目・カラーカスタマイズ）の実装
-- [x] Android 6.0 までの下位互換対応
-- [ ] 視覚演出の強化（高負荷時の発光、残像エフェクト等）
-- [ ] データのローカル保存（CSV出力）およびリプレイ機能の実装
-- [x] Android Auto 対応の検討
+## Development Roadmap
+- [x] Core architecture (OBD-II communication & multi-waveform rendering)
+- [x] Smartphone accelerometer integration (G-Force)
+- [x] Customization UI (metric selection & color picker)
+- [x] Backward compatibility down to Android 6.0
+- [x] Telemetry CSV logging and replay functionality
+- [x] English & Japanese localization
+- [ ] Enhanced visual effects (peak hold, dynamic glow, afterglow trails)
+- [ ] Export & share recorded CSV data
+- [ ] Android Auto full template support
 
-## ライセンス (License)
-このプロジェクトは [MIT License](LICENSE) の下で公開されています。
+## License
+This project is licensed under the [MIT License](LICENSE).
 
-## 免責事項 (Disclaimer)
-- 本アプリは走行中の補助的な表示を目的としており、車両の診断や整備の正確性を保証するものではありません。
-- 運転中の操作は大変危険ですので、必ず安全な場所に停車して操作するか、同乗者が操作してください。
+## Disclaimer
+- This application is intended as a supplemental visual monitor and does not guarantee diagnostic accuracy.
+- Operating mobile devices while driving is hazardous. Always park safely before configuring or have a passenger operate the app.

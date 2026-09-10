@@ -26,10 +26,8 @@ class SecondFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     private lateinit var settingsManager: SettingsManager
@@ -56,9 +54,9 @@ class SecondFragment : Fragment() {
     private fun updateDeviceLabel() {
         val address = settingsManager.selectedDeviceAddress
         if (address != null) {
-            binding.textBtDevice.text = "接続先: $address"
+            binding.textBtDevice.text = getString(R.string.connected_device, address)
         } else {
-            binding.textBtDevice.text = "Bluetoothデバイスを選択"
+            binding.textBtDevice.text = getString(R.string.select_bt_device)
         }
     }
 
@@ -66,13 +64,13 @@ class SecondFragment : Fragment() {
     private fun showDevicePicker() {
         val devices = obdBluetoothManager.getPairedDevices()
         if (devices.isEmpty()) {
-            Toast.makeText(requireContext(), "ペアリング済みのデバイスが見つかりません", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.no_paired_devices), Toast.LENGTH_SHORT).show()
             return
         }
 
         val names = devices.map { "${it.name ?: "Unknown"}\n${it.address}" }.toTypedArray()
         AlertDialog.Builder(requireContext())
-            .setTitle("デバイスを選択")
+            .setTitle(getString(R.string.select_device_title))
             .setItems(names) { _, which ->
                 val selected = devices[which]
                 settingsManager.selectedDeviceAddress = selected.address

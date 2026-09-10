@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">CockpitScope</string>
+    <string name="action_settings">設定</string>
+    <string name="action_record">録画 (REC)</string>
+    <string name="action_replay">再生</string>
+
+    <!-- Navigation & Titles -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">次へ</string>
+    <string name="previous">前へ</string>
+
+    <!-- Settings Screen -->
+    <string name="display_settings">表示設定</string>
+    <string name="select_bt_device">Bluetoothデバイスを選択</string>
+    <string name="connected_device">接続先: %1$s</string>
+    <string name="apply_and_back">適用して戻る</string>
+    <string name="no_paired_devices">ペアリング済みのデバイスが見つかりません</string>
+    <string name="select_device_title">デバイスを選択</string>
+    <string name="select_color_title">色の選択</string>
+    <string name="max_items_warning">最大9個までしか選択できません</string>
+    <string name="log_saved">テレメトリーログを保存しました</string>
+
+    <!-- Metric Labels -->
+    <string name="metric_rpm">エンジン回転数 (RPM)</string>
+    <string name="metric_speed">車速 (Speed)</string>
+    <string name="metric_throttle">アクセル開度 (Throttle)</string>
+    <string name="metric_water_temp">水温 (Water Temp)</string>
+    <string name="metric_voltage">電圧 (Voltage)</string>
+    <string name="metric_load">エンジン負荷 (Load)</string>
+    <string name="metric_map">インマニ圧 (MAP)</string>
+    <string name="metric_maf">吸入空気量 (MAF)</string>
+    <string name="metric_gforce">加速度 (G-Force)</string>
+    <string name="metric_intake_air_temp">吸気温度 (Intake Air)</string>
+    <string name="metric_timing_advance">点火時期 (Timing)</string>
+    <string name="metric_ambient_air_temp">外気温度 (Ambient)</string>
+    <string name="metric_fuel_level">燃料残量 (Fuel)</string>
+    <string name="metric_baro_pressure">大気圧 (Baro)</string>
+
+    <!-- Color Names -->
+    <string name="color_red">赤 (Red)</string>
+    <string name="color_green">緑 (Green)</string>
+    <string name="color_blue">青 (Blue)</string>
+    <string name="color_yellow">黄 (Yellow)</string>
+    <string name="color_cyan">水色 (Cyan)</string>
+    <string name="color_magenta">紫 (Magenta)</string>
+    <string name="color_white">白 (White)</string>
+    <string name="color_gray">灰色 (Gray)</string>
+</resources>

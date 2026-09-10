@@ -265,7 +265,7 @@ class FirstFragment : Fragment() {
             clearSeries()
             SettingsManager.ALL_ITEMS.forEach { item ->
                 if (settingsManager.isEnabled(item.id)) {
-                    addSeries(item.id, item.label, item.maxValue, settingsManager.getColor(item.id), item.decimalPlaces)
+                    addSeries(item.id, item.getLabel(requireContext()), item.maxValue, settingsManager.getColor(item.id), item.decimalPlaces)
                 }
             }
         }

@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         binding.toolbar.navigationIcon = ContextCompat.getDrawable(this, R.drawable.ic_drawer_telemetry)
 
         binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "テレメトリーログを保存しました", Snackbar.LENGTH_LONG)
+            Snackbar.make(view, getString(R.string.log_saved), Snackbar.LENGTH_LONG)
                 .setAnchorView(R.id.fab).show()
         }
     }

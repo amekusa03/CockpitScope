@@ -23,7 +23,17 @@ class SettingsAdapter(
         Color.parseColor("#FFFFFF"), // White
         Color.parseColor("#AAAAAA")  // Gray
     )
-    private val colorNames = listOf("赤 (Red)", "緑 (Green)", "青 (Blue)", "黄 (Yellow)", "水色 (Cyan)", "紫 (Magenta)", "白 (White)", "灰色 (Gray)")
+
+    private val colorResIds = listOf(
+        R.string.color_red,
+        R.string.color_green,
+        R.string.color_blue,
+        R.string.color_yellow,
+        R.string.color_cyan,
+        R.string.color_magenta,
+        R.string.color_white,
+        R.string.color_gray
+    )
 
     class ViewHolder(val binding: ItemSettingBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -34,23 +44,25 @@ class SettingsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
-        holder.binding.textLabel.text = item.label
+        val context = holder.itemView.context
+        holder.binding.textLabel.text = item.getLabel(context)
         holder.binding.checkboxEnabled.isChecked = settingsManager.isEnabled(item.id)
         holder.binding.viewColor.setBackgroundColor(settingsManager.getColor(item.id))
 
         holder.binding.checkboxEnabled.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked && settingsManager.getEnabledCount() >= 9) {
                 holder.binding.checkboxEnabled.isChecked = false
-                Toast.makeText(holder.itemView.context, "最大9個までしか選択できません", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.max_items_warning), Toast.LENGTH_SHORT).show()
                 return@setOnCheckedChangeListener
             }
             settingsManager.setEnabled(item.id, isChecked)
         }
 
         holder.binding.viewColor.setOnClickListener {
-            AlertDialog.Builder(it.context)
-                .setTitle("Select Color")
-                .setItems(colorNames.toTypedArray()) { _, which ->
+            val colorNames = colorResIds.map { context.getString(it) }.toTypedArray()
+            AlertDialog.Builder(context)
+                .setTitle(context.getString(R.string.select_color_title))
+                .setItems(colorNames) { _, which ->
                     val selectedColor = colors[which]
                     settingsManager.setColor(item.id, selectedColor)
                     holder.binding.viewColor.setBackgroundColor(selectedColor)
